@@ -1,0 +1,35 @@
+DUNGEONATOR
+This is a high-level design doc / to-do list that will specify the outline of my application
+
+1. Generator class - a class that provides method for on demand dungeon gereator based on its state information
+    * For our sake this will only be called once, but later on perhaps this could be called multiple times for subsequent levels
+
+    a. methods:
+        1. generate - returns a representation of the dungeon based on binary space partitioning algorithim
+        * what will this represntation look like? a tree like structure seems to make the most sense. The abstraction is specific ...
+        only leaf nodes are rooms. 
+        * each node has a cut or not. if it has a cut it is a parent node, not a leaf and otherwise it is a leaf and therefore a room to be rendered. 
+        * what does a non-leafnode represnt? a connection point...
+        * there seem to be two types of connection points
+            1. connection point between two rooms 
+            2. connection point between groups of rooms
+                a. connection point between connection points
+                b. connection point to one another room in the group (this might be challenign to differentiate and have non collisiosn)
+                    > can just generate until we have a valid connection ... performance is not the concern here, just a working example
+                    > need to create collision detection anyway. 
+                    >
+
+2. Room class - (should have been called cell. i suuppose we could refactor)
+
+2. Builder / Drawer class - this class will be given a representation of our dungeon and draw it using gl
+
+
+3. Things to add
+    > 1st person enter the gungeon? get exposed to ray 
+    > gonna do 2d. time lapse generation? 
+    > lets try to draw the rooms
+
+
+4. rendering
+    > need to first create verticies for my data
+

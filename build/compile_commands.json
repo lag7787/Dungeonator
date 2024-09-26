@@ -1,0 +1,14 @@
+[
+{
+  "directory": "/home/lucgarabrant/Documents/Projects/dungeon/build",
+  "command": "/usr/bin/c++  -I/home/lucgarabrant/Documents/Projects/dungeon/include -g -o CMakeFiles/dungeon.dir/src/main.cpp.o -c /home/lucgarabrant/Documents/Projects/dungeon/src/main.cpp",
+  "file": "/home/lucgarabrant/Documents/Projects/dungeon/src/main.cpp",
+  "output": "CMakeFiles/dungeon.dir/src/main.cpp.o"
+},
+{
+  "directory": "/home/lucgarabrant/Documents/Projects/dungeon/build",
+  "command": "/usr/bin/cc  -I/home/lucgarabrant/Documents/Projects/dungeon/include -g -o CMakeFiles/dungeon.dir/src/glad.c.o -c /home/lucgarabrant/Documents/Projects/dungeon/src/glad.c",
+  "file": "/home/lucgarabrant/Documents/Projects/dungeon/src/glad.c",
+  "output": "CMakeFiles/dungeon.dir/src/glad.c.o"
+}
+]
