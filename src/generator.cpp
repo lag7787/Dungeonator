@@ -16,10 +16,6 @@ void Generator::printRooms() {
        //     Room tmpRoom = *(rooms[i]);
        //     std::cout << "room" << i << "-> x1: " <<  tmpRoom.x1 << " y1: " << tmpRoom.y1 << " x2: " << tmpRoom.x2 << " y2: " << tmpRoom.y2 << std::endl;
        // }
-
-
-
-
 }
 
 float* Generator::getVerticies(Room* room) {

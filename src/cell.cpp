@@ -14,43 +14,43 @@
 Cell::Cell(unsigned int input_width, unsigned int input_height, unsigned int input_x, unsigned int input_y) : r1(nullptr), r2(nullptr), room(nullptr) {
     width = input_width;
     height = input_height;
-    x = input_x;
-    y = input_y;
+    x = input_x; // bottom_left x
+    y = input_y; // bottom_left y 
 }
 
 // recursive split funciton
-void Cell::split(unsigned int min_width, unsigned int min_height) {
+void Cell::split(unsigned int min_width, unsigned int min_height, orientation choice) {
     
     if (width <= min_width || height <= min_height) {
         return;
     } 
 
     //std::cout << "width: " << width << " height: " <<  height << std::endl;
-    unsigned int choice = glm::linearRand<unsigned int>(VERTICAL,HORIZONTAL);
-//    std::cout << "choice: " << choice << std::endl;
 
     if (choice == HORIZONTAL){
         //std::cout << "horizontal choice!" << std::endl;
-        unsigned int random_height = glm::linearRand<unsigned int>(0, height);
-        r1 = new Cell(width, random_height, this->x, this->y);
-        r2 = new Cell(width, height - random_height, this->x, this->y + random_height);
+        unsigned int half_height = height / 2;
+        r1 = new Cell(width, half_height, this->x, this->y);
+        r2 = new Cell(width, height - half_height, this->x, this->y + half_height);
+        choice = VERTICAL;
     } else {
         //std::cout << "vertical choice!" << std::endl;
-        unsigned int random_width = glm::linearRand<unsigned int>(0, width);
-        r1 = new Cell(random_width, height, this->x, this->y);
-        r2 = new Cell(width - random_width, height, this->x + random_width, this->y);
+        unsigned int half_width = width / 2;
+        r1 = new Cell(half_width, height, this->x, this->y);
+        r2 = new Cell(width - half_width, height, this->x + half_width, this->y);
+        choice = HORIZONTAL;
     }
 
-
-    r1->split(min_width, min_height);
-    r2->split(min_width, min_height);
+    r1->split(min_width, min_height, choice);
+    r2->split(min_width, min_height, choice);
 }
 
 void Cell::buildRooms(Generator* gen) {
 
+// figure out why this breaks when i seed 
+
     if (!this->r1 && !this->r2) {
         // leaf node
-        //srand(time(NULL));
 
         unsigned int x1 = rand() % width;
         unsigned int y1 = rand() % height;
@@ -58,20 +58,21 @@ void Cell::buildRooms(Generator* gen) {
         unsigned int x2 = x1 + (rand() % (width - x1));
         unsigned int y2 = y1 + (rand() % (height - y1));
 
-        while (x2 - x1 < 2) {
+        while (x2 - x1 < width/4) {
+            x1 = rand() % width;
             x2 = x1 + (rand() % (width - x1));
         }
         
         // i think this could cause an infite look, unlikely, but i think it oculd happen
-
-        while (y2 - y1 < 2) {
+        while (y2 - y1 < height/4) {
+            y1 = rand() % height;
             y2 = y1 + (rand() % (height - y1));
         }
 
         room = new Room(x + x1, y + y1, x + x2, y + y2);
+        // implment better fix
         gen->rooms.push_back(room);
         // we could do the verticy conerstion right here. or maybe just populate within the constructor itself... depends on how were handling abstracitons 
-
     } else {
         r1->buildRooms(gen);
         r2->buildRooms(gen);

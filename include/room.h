@@ -9,8 +9,9 @@ class Room {
         unsigned int y1;
         unsigned int x2;
         unsigned int y2;
+        unsigned int getHeight();
+        unsigned int getLength();
     private:
-
 
 };
 
