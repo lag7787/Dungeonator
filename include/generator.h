@@ -13,12 +13,13 @@ class Generator {
         Generator(unsigned int input_width, unsigned int input_height);
         Cell generate();
         std::vector<Room*> rooms; // may lead to memory leaks... 
+        std::vector<Room*> connections; // may lead to memory leaks... 
         void printRooms();
         float* getVerticies(Room* room);
+        void buildConnectors();
     private:
         unsigned int width;
         unsigned int height;
-
 };
 
 

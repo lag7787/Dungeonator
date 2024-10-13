@@ -79,28 +79,6 @@ void Cell::buildRooms(Generator* gen) {
     }
 }
 
-void Cell::buildConnections() {
-
-    if (!this->r1 && !this->r2) {
-        // no connections to build
-        return;
-    } else {
-        // build connection between two both children (could be groups or other wise ..... how should we handle this )
-        // if we building connections between nodes rooms we simply join the rooms, but if were connecting between groups of rooms,
-        // we connect to either a connector in that group or room in that group... 
-
-        // could auto populate a connection point? 
-        // connection essentialy has to traverse split point defined earlier (e.g. horizontal or vertical a)
-        // shoot out a connector until it collides with something from that group? seems expensive      4w  t
-        // at most two turns to reach other group 
-        // always connect rooms? ->? use the x,y starting point?
-        // would hav to find closest leaf?
-        // do we even want to generate the coordidors now? shoudl we just start drawing? 
-        // should be draw procedurally
-    }
-
-}
-
 
 void Cell::prettyPrint() {
 

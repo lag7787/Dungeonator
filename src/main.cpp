@@ -41,9 +41,10 @@ int main(){
 
     Generator gen = Generator(SCRN_WIDTH, SCRN_HEIGHT);
     Cell cell = gen.generate(); // should proboably just pass scrn width and height into the genreator
-    cell.split(SCRN_WIDTH/6, SCRN_HEIGHT/6, Cell::HORIZONTAL);
+    cell.split(SCRN_WIDTH/8, SCRN_HEIGHT/8, Cell::HORIZONTAL);
     srand(time(NULL));
     cell.buildRooms(&gen);
+    gen.buildConnectors();
 
 
     std::string vertexCode;
@@ -128,7 +129,6 @@ int main(){
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
     // i think it is the verticies... if we bind different ones. it will probably work
-    unsigned int count = 0;
     while(!glfwWindowShouldClose(window)) {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
@@ -156,16 +156,32 @@ int main(){
             ));
             glUniformMatrix4fv(glGetUniformLocation(ID, "model"), 1, GL_FALSE, glm::value_ptr(model));
             glDrawArrays(GL_TRIANGLES, 0, 6);
-            if (count == 0) {
-                std::cout << "room " << i << " height: " << gen.rooms[i]->getHeight() << std::endl;
-                std::cout << "room " << i << " length: " << gen.rooms[i]->getLength() << std::endl;
-               // std::cout << "x1: " << gen.rooms[i]->x1 << " y1: " << gen.rooms[i]->y1 << std::endl;
-               // std::cout << "x2: " << gen.rooms[i]->x2 << " y2: " << gen.rooms[i]->y2 << std::endl;
-                std::cout << "midX: " << midX << std::endl;
-                std::cout << "midY: " << midY << std::endl;
-            }
         }
-        count++;
+
+        for (unsigned int i = 0; i <gen.connections.size(); i++) {
+            unsigned int x1 = gen.connections[i]->x1;
+            unsigned int y1 = gen.connections[i]->y1;
+            unsigned int x2 = gen.connections[i]->x2;
+            unsigned int y2 = gen.connections[i]->y2;
+
+            while (x1 != x2 || y1 != y2) {
+                if (x1 < x2) {
+                    x1++;
+                } else if (x1 > x2) {
+                    x1--;
+                } else if (y1 < y2) {
+                    y1++;
+                } else if (y1 > y2) {
+                    y1--;
+                }
+                glm::mat4 model = glm::mat4(1.0f);
+                model = glm::translate(model, glm::vec3(x1, y1, 0.0f));
+                glUniformMatrix4fv(glGetUniformLocation(ID, "model"), 1, GL_FALSE, glm::value_ptr(model));
+                glDrawArrays(GL_TRIANGLES, 0, 6);
+
+            }
+
+        }
 
         glfwSwapBuffers(window);
         glfwPollEvents();

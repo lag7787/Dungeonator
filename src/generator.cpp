@@ -1,6 +1,11 @@
 #include "generator.h"
 #include "room.h"
 #include <iostream>
+#include <algorithm>
+
+bool comparator (Room* i, Room* j) {
+    return i->x1 < j->x1;
+}
 
 Generator::Generator(unsigned int input_width, unsigned int input_height) {
     width = input_width;
@@ -45,8 +50,22 @@ float* Generator::getVerticies(Room* room) {
     verticies[16] = static_cast<float>((room->y2 - (half_height)) / half_height); // top left y value
     verticies[17] = 0.0f;
 
-
     return verticies;
+}
+
+void Generator::buildConnectors() {
+    std::sort(rooms.begin(),rooms.end(),comparator);
+    Room* room;
+    Room* nextRoom;
+    for (unsigned int i = 0; i < rooms.size()-1; i++) {
+        room = rooms[i];
+        nextRoom = rooms[i+1];
+        unsigned int x1 = room->x1 + (rand() % (room->x2 - room->x1 - 1));
+        unsigned int y1 = room->y1 + (rand() % (room->y2 - room->y1 - 1));
+        unsigned int x2 = nextRoom->x1 + (rand() % (nextRoom->x2 - nextRoom->x1 - 1));
+        unsigned int y2 = nextRoom->y1 + (rand() % (nextRoom->y2 - nextRoom->y1 - 1));
+        connections.push_back(new Room(x1, y1, x2, y2));
+    }
 }
 
 

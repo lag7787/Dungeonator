@@ -14,7 +14,6 @@ class Cell {
         Room* room;
         Cell(unsigned int input_width, unsigned int input_height, unsigned int input_x, unsigned int input_y);
         void buildRooms(Generator* gen);
-        void buildConnections();
         void prettyPrint();
         int getHeight(Cell* rm);
         enum orientation {
